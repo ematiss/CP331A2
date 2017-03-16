@@ -1,8 +1,9 @@
 #include<stdio.h>
 #include<time.h>
 #include<omp.h>
+#include<math.h>
 
-double simpsons(double a, double b, int n);
+double simpsons(double a, double b, long n);
 double f(double x);
 
 int main(int argc, char *argv[]) {
@@ -18,7 +19,7 @@ int main(int argc, char *argv[]) {
 	return 0;
 }
 
-double simpsons(double a, double b, int n) {
+double simpsons(double a, double b, long n) {
 	double h = (b - a) / n;
 	double result, p;
 	int i;
@@ -39,5 +40,5 @@ double simpsons(double a, double b, int n) {
 
 
 double f(double x) {
-	return x*x;
+	return cos(x);
 }
