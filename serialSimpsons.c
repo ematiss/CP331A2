@@ -13,7 +13,7 @@ double simpsons(double a, double b, int n) {
 	double h = (b - a) / n;
 	double x, result, p;
 	int i;
-	p= 0;
+	p = 0;
 	x = a + h;
 	
 	for(i = 1; i < n; i++) {
@@ -22,7 +22,6 @@ double simpsons(double a, double b, int n) {
 		} else {
 			p += f(x) * 4;
 		}
-
 		x += h;
 	}
 		
