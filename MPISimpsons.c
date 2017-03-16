@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<mpi.h>
+#include<math.h>
 
-double simpsons(double a, double b, int n); 
 double f(double x);
 
 int main(int argc, char *argv[]) {
@@ -10,19 +10,20 @@ int main(int argc, char *argv[]) {
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &world);
 
-	int i, bpp, remainder, start, end, n;
+	int i, bpp, remainder, start, end;//, n;
 	double a, b, h, procsum, sum, t1, t2;
+	long n;
 
 	t1 = MPI_Wtime();
 
-	n = 100;
+	n = 1000000000;
 	a = 1;
 	b = 10;
 	
 
 	h = (b - a) / n;
 	bpp = (n)/world;
-	remainder = (n-1)%world;
+	remainder = (n - 1)%world;
 	
 	if(rank > remainder || remainder == 0) {
 		start = remainder + rank * bpp;
@@ -36,7 +37,7 @@ int main(int argc, char *argv[]) {
 	}
 	
 	for(i = start; i < end; i++) {
-		int x = i + 1;
+		int x = i +1;
 		if(x%2 == 0) {
 			procsum += f(a + h * x) * 2;
 			//printf("%d Yields: %f\n", x, f(a + h * x) * 2);
@@ -68,5 +69,5 @@ int main(int argc, char *argv[]) {
 
 
 double f(double x) {
-	return x*x*x;
+	return cos(x);
 }
