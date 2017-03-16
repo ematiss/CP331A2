@@ -1,4 +1,4 @@
-CP331 - Assignment 2#  
+# CP331 - Assignment 2#  
 Due 5:30 pm, Thursday, March 16 , 2017\. Submit PDF file and source code by email.  
 
 Rules for submitting can be found in the course outline. Assignment is to be done by groups of three students.  
@@ -27,7 +27,7 @@ Write 3 programs:
 3\. an OpenMP parallel program  
 
 that use Simpson's rule to estimate the integral of  
-![Equation 4](eq4_ps1.png)  
+![Equation 4](https://bohr.wlu.ca/ppomorski/eq4_ps1.png)  
 for some function f of your choice that can be integrated exactly, allowing you to check your answer.  
 
 You can assume that the number of processes or threads is less than n/2\. However, do **not** assume that n/2 divided by the number of processes is an integer. Aim to assign the same amount of work to all processes or threads, as far as that is reasonably possible.  
