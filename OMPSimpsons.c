@@ -1,12 +1,20 @@
 #include<stdio.h>
+#include<time.h>
 #include<omp.h>
 
-double simpsons(double a, double b, int n); 
+double simpsons(double a, double b, int n);
 double f(double x);
 
 int main(int argc, char *argv[]) {
-	printf("Simpsons Rule.\n");
-	printf("%f\n", simpsons(1,10,4));
+	clock_t start, end;
+	int msec;
+
+	start = clock();
+	printf("OpenMP Simpsons Rule.\nf(x) = x^2\nn = 1000000000\ninterval: [1, 10]\n");
+	printf("Integral of x^2 on [1,10] = %f", simpsons(1,10,1000000000));
+	end = clock();
+	msec = (double)(end - start)/CLOCKS_PER_SEC*1000;
+	printf("Time taken: %d seconds %d milliseconds.\n", msec/1000, msec%1000);
 	return 0;
 }
 
@@ -24,7 +32,7 @@ double simpsons(double a, double b, int n) {
 			p += f(a + i * h) * 4;
 		}
 	}
-	#pragma omp single	
+	#pragma omp single
 	result = (h/3) * (f(a) + f(b) + p);
 	return result;
 }
