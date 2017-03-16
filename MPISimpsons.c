@@ -11,9 +11,11 @@ int main(int argc, char *argv[]) {
 	MPI_Comm_size(MPI_COMM_WORLD, &world);
 
 	int i, bpp, remainder, start, end, n;
-	double a, b, h, procsum, sum;
+	double a, b, h, procsum, sum, t1, t2;
 
-	n = 10;
+	t1 = MPI_Wtime();
+
+	n = 100;
 	a = 1;
 	b = 10;
 	
@@ -37,10 +39,10 @@ int main(int argc, char *argv[]) {
 		int x = i + 1;
 		if(x%2 == 0) {
 			procsum += f(a + h * x) * 2;
-			printf("%d Yields: %f\n", x, f(a + h * x) * 2);
+			//printf("%d Yields: %f\n", x, f(a + h * x) * 2);
 		} else {
 			procsum += f(a + h * x) * 4;
-			printf("%d Yields: %f\n", x, f(a + h * x) * 4);
+			//printf("%d Yields: %f\n", x, f(a + h * x) * 4);
 		}		
 
 	}
@@ -49,11 +51,14 @@ int main(int argc, char *argv[]) {
 	
 	if(rank == 0){
 		sum += f(a);
-		printf("0 Yields: %f\n", f(a));
+		//printf("0 Yields: %f\n", f(a));
 		sum += f(b);
-		printf("0 Yields: %f\n", f(b));
+		//printf("0 Yields: %f\n", f(b));
 		printf("%f\n", (h/3)*sum);
+		t2 = MPI_Wtime();
+		printf( "Elapsed time is %f\n", t2 - t1 );
 	}
+
 
 	MPI_Finalize();
 
@@ -63,5 +68,5 @@ int main(int argc, char *argv[]) {
 
 
 double f(double x) {
-	return x*x;
+	return x*x*x;
 }
