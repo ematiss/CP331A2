@@ -2,17 +2,17 @@
 #include<time.h>
 #include<math.h>
 
-double simpsons(double a, double b, long n); 
+double simpsons(double a, double b, long n);
 double f(double x);
 
 int main(int argc, char *argv[]) {
 	clock_t start, end;
-	printf("Simpsons Rule.\n");
+	printf("Serial Simpsons Rule.\nIntegral of cos(x) on interval: [1, 10], n = 1000000000\n");
 	start = clock();
-	printf("%f\n", simpsons(1,10,1000000000));
+	printf("Result: %f\n", simpsons(1,10,1000000000));
 	end = clock();
-	int msec = (end - start) * 1000 / CLOCKS_PER_SEC;
-	printf("Time taken %d seconds %d milliseconds.\n", msec/1000, msec%1000);
+	int msec = (double)(end - start)/CLOCKS_PER_SEC*1000;
+	printf("Time taken: %d seconds %d milliseconds.\n", msec/1000, msec%1000);
 	return 0;
 }
 
@@ -22,7 +22,7 @@ double simpsons(double a, double b, long n) {
 	int i;
 	p = 0;
 	x = a + h;
-	
+
 	for(i = 1; i < n; i++) {
 		if(i%2 == 0) {
 			p += f(x) * 2;
@@ -31,7 +31,7 @@ double simpsons(double a, double b, long n) {
 		}
 		x += h;
 	}
-		
+
 	result = (h/3) * (f(a) + f(b) + p);
 	return result;
 }

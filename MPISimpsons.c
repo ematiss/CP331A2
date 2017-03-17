@@ -19,12 +19,12 @@ int main(int argc, char *argv[]) {
 	n = 1000000000;
 	a = 1;
 	b = 10;
-	
+
 
 	h = (b - a) / n;
 	bpp = (n)/world;
 	remainder = (n - 1)%world;
-	
+
 	if(rank > remainder || remainder == 0) {
 		start = remainder + rank * bpp;
 		end = start + bpp;
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
 			end++;
 		}
 	}
-	
+
 	for(i = start; i < end; i++) {
 		int x = i +1;
 		if(x%2 == 0) {
@@ -44,20 +44,21 @@ int main(int argc, char *argv[]) {
 		} else {
 			procsum += f(a + h * x) * 4;
 			//printf("%d Yields: %f\n", x, f(a + h * x) * 4);
-		}		
+		}
 
 	}
 
 	MPI_Reduce(&procsum, &sum, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-	
+
 	if(rank == 0){
 		sum += f(a);
 		//printf("0 Yields: %f\n", f(a));
 		sum += f(b);
 		//printf("0 Yields: %f\n", f(b));
-		printf("%f\n", (h/3)*sum);
+		printf("MPI Simpsons Rule.\nIntegral of cos(x) on interval: [1, 10], n = 1000000000\n");
+		printf("Result: %f\n", (h/3)*sum);
 		t2 = MPI_Wtime();
-		printf( "Elapsed time is %f\n", t2 - t1 );
+		printf("Time taken: %d seconds %d milliseconds.\n", (int)(t2-t1), (t2 - t1) - (int)(t2-t1));
 	}
 
 

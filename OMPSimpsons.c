@@ -11,8 +11,8 @@ int main(int argc, char *argv[]) {
 	int msec;
 
 	start = clock();
-	printf("OpenMP Simpsons Rule.\nf(x) = x^2\nn = 1000000000\ninterval: [1, 10]\n");
-	printf("Integral of x^2 on [1,10] = %f", simpsons(1,10,1000000000));
+	printf("OpenMP Simpsons Rule.\nf(x) = cos(x)\nn = 1000000000\ninterval: [1, 10]\n");
+	printf("Result:  %f\n", simpsons(1,10,1000000000));
 	end = clock();
 	msec = (double)(end - start)/CLOCKS_PER_SEC*1000;
 	printf("Time taken: %d seconds %d milliseconds.\n", msec/1000, msec%1000);
@@ -25,7 +25,12 @@ double simpsons(double a, double b, long n) {
 	int i;
 	p = 0;
 
-    #pragma omp parallel for reduction (+:p)
+	#pragma omp parallel
+	{
+		printf("%d\n", omp_get_num_threads());
+	}
+
+    #pragma omp parallel for reduction (+:p) private(i)
 	for(i = 1; i < n; i++) {
 		if(i%2 == 0) {
 			p += f(a + i * h) * 2;
@@ -33,6 +38,7 @@ double simpsons(double a, double b, long n) {
 			p += f(a + i * h) * 4;
 		}
 	}
+
 	#pragma omp single
 	result = (h/3) * (f(a) + f(b) + p);
 	return result;
